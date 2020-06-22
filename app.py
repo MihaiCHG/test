@@ -91,12 +91,16 @@ def register():
 @app.route("/alarma-on")
 def alarma_on():  
     #pentru pornit alarma  
+    cmd = "sudo python alarma.py"
+    os.system(cmd)
     msg = "Alarma a fost pornita!"
     return render_template('alarma.html',msg=msg)
 
 @app.route("/alarma-off")
 def alarma_off(): 
     msg = "Alarma a fost oprita!"
+    cmd=" ps aux | grep -ie 'python alarma.py' | awk '{print $2}' | xargs sudo kill -9"
+    os.system(cmd)
     return render_template('alarma.html',msg=msg)
 
 @app.route("/led")
@@ -120,4 +124,4 @@ def led_off():
     return render_template('led.html',msg=msg)
 
 if  __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
